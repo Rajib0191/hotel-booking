@@ -1,103 +1,83 @@
-import Image from "next/image";
+"use client";
+import Calender from "@/components/calender/Calender";
+import Button from "@/components/common/Button";
+import Modal from "@/components/common/Modal";
+import { getTotalDays } from "@/libs/data";
+import { formatWithDateFns } from "@/libs/dateFormat";
+import { addDays } from "date-fns";
+import { Search } from "lucide-react";
+import React, { useState } from "react";
 
-export default function Home() {
+type DateRange = { start: Date | null; end: Date | null };
+
+const HomeScreen = () => {
+  const [selectedRange, setSelectedRange] = useState<DateRange>({
+    start: new Date(),
+    end: addDays(new Date(), 1),
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleModal = () => setIsOpen(!isOpen);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div
+      className="h-screen bg-no-repeat bg-cover bg-fixed flex justify-center items-center"
+      style={{
+        backgroundImage: "url('/banner.webp')",
+        backgroundPosition: "50% 40%",
+      }}
+    >
+      <div className="relative bg-background container rounded-md pt-[50px] pr-3.5 pb-10 pl-3.5">
+        {/* ===== Header Title ===== */}
+        <div className="fixed left-1/2 transform -translate-x-1/2 -translate-y-16 bg-background text-foreground shadow-custom-shadow py-1.5 px-20 rounded z-50">
+          <strong>Search Available Room</strong>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        {/* =====Form Container===== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            className="flex justify-center items-start flex-col border border-custom-border hover:border-pink cursor-pointer active:border-amber-400 transition-all rounded-sm px-3"
+            onClick={toggleModal}
+          >
+            <small>CHECK IN</small>
+            <strong>{formatWithDateFns(new Date()).formatted}</strong>
+            <small>{formatWithDateFns(new Date()).day}</small>
+          </div>
+          <div
+            className="flex justify-center items-start flex-col border border-custom-border hover:border-pink cursor-pointer active:border-amber-400 transition-all rounded-sm px-3"
+            onClick={toggleModal}
+          >
+            <small>CHECK OUT</small>
+            <strong>{formatWithDateFns(new Date()).formatted}</strong>
+            <small>{formatWithDateFns(new Date()).day}</small>
+          </div>
+          <div className="border border-custom-border cursor-pointer hover:border-pink active:border-amber-400 transition-all rounded-sm px-3">
+            <small>ROOM TYPE</small>
+          </div>
+        </div>
+        {/* =====Button===== */}
+        <div className="fixed left-1/2 transform -translate-x-1/2 translate-y-5 shadow-custom-shadow rounded">
+          <Button
+            title="Search"
+            className="bg-amber-400 text-foreground font-bold hover:bg-amber-500 px-10"
+            icon={<Search size={20} />}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {isOpen && (
+        <Modal
+          children={
+            <Calender
+              selectedRange={selectedRange}
+              setSelectedRange={setSelectedRange}
+              totalDays={getTotalDays(selectedRange.start, selectedRange.end)}
+            />
+          }
+        />
+      )}
     </div>
   );
-}
+};
+
+export default HomeScreen;

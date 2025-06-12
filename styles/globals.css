@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #666;
+  --pink: pink;
+  --red-900: #ff007f;
+  --red-700: #cc0066;
+  --green: #319055;
+  --blue: #0065cd;
+  --dark-blue: #0058b4;
+  --gray: #36454f;
+  --sky: #007f86;
+  --custom-border: #dbdde0;
+  --custom-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-pink: var(--pink);
+  --color-red-900: var(--red-900);
+  --color-red-700: var(--red-700);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  --color-dark-blue: var(--dark-blue);
+  --color-gray: var(--gray);
+  --color-sky: var(--sky);
+  --color-custom-border: var(--custom-border);
+  --shadow-custom-shadow: var(--custom-shadow);
+  --font-dosis: var(--font-dosis), sans-serif;
+}
+
+* {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dosis);
+  height: 100vh;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1200px;
+  }
+}

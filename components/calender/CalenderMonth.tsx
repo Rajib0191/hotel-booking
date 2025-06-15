@@ -14,13 +14,18 @@ type Props = {
   baseDate: Date;
   selectedRange: { start: Date | null; end: Date | null };
   onDateClick: (date: Date) => void;
+  isOpenCheckInDate?: boolean;
+  isOpenCheckOutDate?: boolean;
 };
-const CalenderMonth = ({ baseDate, selectedRange, onDateClick }: Props) => {
+const CalenderMonth = ({
+  baseDate,
+  selectedRange,
+  onDateClick,
+  isOpenCheckOutDate,
+  isOpenCheckInDate,
+}: Props) => {
   const monthStart = startOfMonth(baseDate);
   const monthEnd = endOfMonth(monthStart);
-
-  // console.log("monthStart:", monthStart);
-  // console.log("monthEnd:", monthEnd);
 
   const rows = [];
   let day = monthStart;
@@ -32,8 +37,14 @@ const CalenderMonth = ({ baseDate, selectedRange, onDateClick }: Props) => {
       if (day > monthEnd) break;
 
       const currentDay = day;
+
       const today = new Date();
       const isInPast = isBefore(currentDay, startOfDay(today));
+      const isInDateSelect = selectedRange.start
+        ? isBefore(currentDay, selectedRange.start)
+        : false;
+      console.log(isInDateSelect);
+
       const isStart =
         selectedRange.start && isSameDay(currentDay, selectedRange.start);
       const isEnd =
@@ -54,13 +65,14 @@ const CalenderMonth = ({ baseDate, selectedRange, onDateClick }: Props) => {
             ${isEnd ? "bg-indigo-900 text-white" : ""}
             ${isInRange ? "bg-indigo-100" : ""}
             ${
-              isInPast
+              isInPast || (isOpenCheckOutDate && isInDateSelect)
                 ? "text-gray-300 cursor-not-allowed pointer-events-none"
                 : ""
             }
           `}
             onClick={() => {
-              if (!isInPast) onDateClick(currentDay);
+              if (!isInPast || (!isOpenCheckOutDate && !isInDateSelect))
+                onDateClick(currentDay);
             }}
           >
             {format(currentDay, "d")}

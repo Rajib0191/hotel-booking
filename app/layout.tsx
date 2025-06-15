@@ -43,7 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dosis.variable} antialiased`}>
+      <body
+        className={`${dosis.variable} antialiased suppressHydrationWarning`}
+      >
         <CustomLayout>{children}</CustomLayout>
       </body>
     </html>

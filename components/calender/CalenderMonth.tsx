@@ -43,7 +43,6 @@ const CalenderMonth = ({
       const isInDateSelect = selectedRange.start
         ? isBefore(currentDay, selectedRange.start)
         : false;
-      console.log(isInDateSelect);
 
       const isStart =
         selectedRange.start && isSameDay(currentDay, selectedRange.start);

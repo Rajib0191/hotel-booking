@@ -8,7 +8,7 @@ type DateRange = { start: Date | null; end: Date | null };
 
 type CalenderProps = {
   selectedRange: DateRange;
-  setSelectedRange: React.Dispatch<React.SetStateAction<DateRange>>;
+  setSelectedRange: (range: DateRange) => void;
   totalDays: null | number;
   isOpenCheckInDate?: boolean;
   setIsOpenCheckInDate?: React.Dispatch<React.SetStateAction<boolean>>;

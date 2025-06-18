@@ -7,11 +7,14 @@ import Button from "./Button";
 import { LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const Navbar = () => {
+const Navbar = ({ bg, shadow }: { bg?: string; shadow?: boolean }) => {
   const router = useRouter();
   return (
-    // bg-amber-400
-    <section className="fixed top-0 left-0 right-0">
+    <section
+      className={`fixed top-0 left-0 right-0 z-50 bg-${bg} ${
+        shadow && "shadow-navbar-shadow"
+      }`}
+    >
       <div className="container flex justify-between items-center">
         <div
           className="relative h-16 w-20 cursor-pointer"

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import Link from "next/link";
+import { useRegisterUser } from "@/hooks/useRegisterUser";
 
 interface FormData {
   firstname: string;
@@ -44,7 +45,11 @@ const SignupScreen = () => {
 
     if (!formData.firstname) newErrors.firstname = "First name is required";
     if (!formData.lastname) newErrors.lastname = "Last name is required";
-    if (!formData.phone) newErrors.phone = "Phone number is required";
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^(?:\+8801|01)[3-9]\d{8}$/.test(formData.phone)) {
+      newErrors.phone = "Phone number is invalid";
+    }
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
@@ -60,15 +65,22 @@ const SignupScreen = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const { mutate: register, isPending } = useRegisterUser();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      // Form is valid, proceed with submission
-      console.log("Form submitted:", formData);
-      // Add your API call or form processing here
+      const payload = {
+        firstName: formData?.firstname,
+        lastName: formData?.lastname,
+        email: formData?.email,
+        phoneNumber: formData?.phone,
+        password: formData?.password,
+      };
+      register(payload);
     }
   };
+
   return (
     <div className="h-screen flex justify-center items-center max-w-md mx-auto">
       <div className="w-full p-6 bg-white rounded-lg shadow-md">
@@ -127,6 +139,7 @@ const SignupScreen = () => {
             className="w-full cursor-pointer"
             type="submit"
             onClick={handleSubmit}
+            isLoading={isPending}
           >
             Register
           </Button>

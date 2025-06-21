@@ -6,9 +6,12 @@ import Avatar from "./Avatar";
 import Button from "./Button";
 import { LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const Navbar = ({ bg, shadow }: { bg?: string; shadow?: boolean }) => {
   const router = useRouter();
+  const { isAuthenticated } = useUser();
+
   return (
     <section
       className={`fixed top-0 left-0 right-0 z-50 bg-${bg} ${
@@ -30,7 +33,7 @@ const Navbar = ({ bg, shadow }: { bg?: string; shadow?: boolean }) => {
           />
         </div>
         <div className="flex justify-center items-center">
-          {true ? (
+          {!isAuthenticated ? (
             <Button
               title="Login"
               onClick={() => router.push("/login")}
@@ -38,7 +41,7 @@ const Navbar = ({ bg, shadow }: { bg?: string; shadow?: boolean }) => {
               loading={false}
             />
           ) : (
-            <Avatar name="Azizul Islam Rajib" />
+            <Avatar />
           )}
         </div>
       </div>

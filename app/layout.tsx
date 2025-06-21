@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Dosis } from "next/font/google";
 import "../styles/globals.css";
 import { Providers } from "./providers";
-import { SearchFormProvider } from "@/context/SearchFormContext";
+import CustomLayout from "@/components/layout/CustomLayout";
 
 const dosis = Dosis({
   variable: "--font-dosis",
@@ -49,9 +49,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${dosis.variable} antialiased`}
       >
-        <SearchFormProvider>
-          <Providers>{children}</Providers>
-        </SearchFormProvider>
+        <Providers>
+          <CustomLayout>{children}</CustomLayout>
+        </Providers>
       </body>
     </html>
   );

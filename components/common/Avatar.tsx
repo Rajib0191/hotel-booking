@@ -9,13 +9,22 @@ import {
   Settings,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
-const Avatar = ({ src, name }: { src?: string; name: string }) => {
+const Avatar = ({ src }: { src?: string }) => {
+  const router = useRouter();
   const customRef = useRef<HTMLDivElement>(null);
+  const { logout } = useUser();
+
   const [isOpen, setIsOpen] = useState(false);
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
+  const { user } = useUser();
+  const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
+
+  const initials = [
+    user?.firstName?.[0] || "",
+    ...(user?.lastName?.split(" ").map((n) => n[0]) || []),
+  ]
     .join("")
     .toUpperCase();
 
@@ -48,7 +57,7 @@ const Avatar = ({ src, name }: { src?: string; name: string }) => {
         {src ? (
           <Image
             src={src}
-            alt={name}
+            alt={fullName}
             fill
             className="object-cover rounded-full"
             sizes="48px"
@@ -66,7 +75,7 @@ const Avatar = ({ src, name }: { src?: string; name: string }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="underline text-white font-bold tracking-wide">
-          {name}
+          {fullName}
         </div>
         <div>
           {isOpen ? (
@@ -81,11 +90,14 @@ const Avatar = ({ src, name }: { src?: string; name: string }) => {
       {isOpen && (
         <div className="absolute top-full mt-2 left-0 bg-white rounded shadow-lg min-w-[200px] z-10">
           <div className="flex flex-col border-b border-custom-border py-2 px-3">
-            <p className="text-sm font-bold m-0">{name}</p>
-            <p className="text-xs m-0">rajibislam700@gmail.com</p>
+            <p className="text-sm font-bold m-0">{fullName}</p>
+            <p className="text-xs m-0">{user?.email}</p>
           </div>
           <div className="border-b border-custom-border p-1">
-            <div className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md">
+            <div
+              className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md"
+              onClick={() => router.push("/dashboard")}
+            >
               <LayoutDashboard size={16} className="mr-3" />
               <p className="text-base m-0">Dashboard</p>
             </div>
@@ -95,7 +107,10 @@ const Avatar = ({ src, name }: { src?: string; name: string }) => {
             </div>
           </div>
           <div className="p-1">
-            <div className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md">
+            <div
+              className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md"
+              onClick={() => logout()}
+            >
               <LogOut size={16} className="mr-3" />
               <p className="text-base m-0">Logout</p>
             </div>

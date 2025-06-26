@@ -1,5 +1,15 @@
 type UserRole = "ADMIN" | "USER" | "MODERATOR"; // etc.
 
+export type Profile = {
+  id: number;
+  address?: string;
+  city?: string;
+  country?: string;
+  occupation?: string;
+  gender?: string;
+  profilePictureUrl?: string;
+};
+
 export interface User {
   id: number;
   email: string;
@@ -7,6 +17,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   role: UserRole;
+  profile: Profile;
   isActive: boolean;
   createdAt: string;
 }

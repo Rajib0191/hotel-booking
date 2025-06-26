@@ -1,26 +1,25 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useUser } from "@/context/UserContext";
+import { getToken } from "@/utils/authUtilities";
 
 export const ProtectedRoute = ({
   children,
-  redirectPath = "/login",
 }: {
   children: React.ReactNode;
   redirectPath?: string;
 }) => {
   const router = useRouter();
-  const pathname = usePathname();
   const { isAuthenticated } = useUser();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push(redirectPath);
+    if (!getToken()) {
+      router.push("/login");
       router.refresh();
     }
-  }, [isAuthenticated, router, pathname, redirectPath]);
+  }, [isAuthenticated]);
 
   return isAuthenticated ? <>{children}</> : null;
 };

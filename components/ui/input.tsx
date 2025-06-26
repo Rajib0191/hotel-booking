@@ -3,7 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 
 interface InputProps {
-  label: string;
+  label?: string;
   name: string;
   type?: "text" | "password" | "email";
   placeholder?: string;

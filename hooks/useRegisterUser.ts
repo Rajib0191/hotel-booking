@@ -30,7 +30,7 @@ export const useRegisterUser = () => {
     onError: (error) => {
       const errorMessage = error?.response?.data?.message;
       showToast({
-        message: errorMessage,
+        message: errorMessage || "Something went wrong!",
         type: "error",
       });
     },

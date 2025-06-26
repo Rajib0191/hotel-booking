@@ -14,6 +14,8 @@
   --custom-border: #dbdde0;
   --custom-shadow: 0 2px 2px 0 rgba(28, 60, 107, 0.1);
   --navbar-shadow: 0 1px 3px rgba(51, 65, 80, 0.08);
+  --modal-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
 
 @theme inline {
@@ -30,6 +32,7 @@
   --color-custom-border: var(--custom-border);
   --shadow-custom-shadow: var(--custom-shadow);
   --shadow-navbar-shadow: var(--navbar-shadow);
+  --shadow-modal-shadow: var(--modal-shadow);
   --font-dosis: var(--font-dosis), sans-serif;
 }
 

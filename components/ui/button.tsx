@@ -29,15 +29,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     // Base classes
     const baseClasses =
-      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-sky disabled:opacity-50 disabled:pointer-events-none";
+      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none";
 
     // Variant classes
     const variantClasses = {
-      primary: "bg-sky text-white hover:bg-sky-700",
-      secondary: "bg-green-600 text-white hover:bg-green",
-      outline: "border border-gray-300 bg-transparent hover:bg-gray-50",
+      primary:
+        "bg-sky text-white hover:bg-sky-700 focus:ring-2 focus:ring-offset-1 focus:ring-sky",
+      secondary:
+        "bg-green-600 text-white hover:bg-green focus:ring-2 focus:ring-offset-1 focus:ring-green-600",
+      outline:
+        "border border-gray-300 bg-transparent hover:bg-gray-50 focus:ring-2 focus:ring-offset-1 focus:ring-gray-300",
       ghost: "bg-transparent hover:bg-gray-100",
-      danger: "bg-red-600 text-white hover:bg-red-700",
+      danger:
+        "bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-offset-1 focus:ring-red-600",
     };
 
     // Size classes

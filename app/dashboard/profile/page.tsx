@@ -6,7 +6,7 @@ import UploadModal from "./_components/UploadModal";
 import EditingModal from "./_components/EditingModal";
 import UserField from "./_components/UserField";
 import UserProfile from "./_components/UserProfile";
-import CreateProfileModal from "./_components/CreateProfileModal";
+import DashboardHeader from "../_component/DashboardHeader";
 
 type Field = {
   label: string;
@@ -20,8 +20,6 @@ export default function Profile() {
   const [editingField, setEditingField] = useState<string | undefined>();
   const [editValue, setEditValue] = useState("");
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showCreateProfilModal, setCreateProfilModal] =
-    useState<boolean>(false);
 
   const handleEditClick = (field: string, value: string) => {
     setEditingField(field);
@@ -78,16 +76,10 @@ export default function Profile() {
 
   return (
     <div className="max-w-full mx-auto">
-      <div className="bg-white shadow-navbar-shadow p-4 mb-1">
-        <h1 className="text-2xl font-bold ">Profile</h1>
-      </div>
+      <DashboardHeader />
 
       <div className="bg-white shadow-navbar-shadow p-6">
-        <UserProfile
-          user={user}
-          setShowModal={setShowModal}
-          setCreateProfilModal={() => setCreateProfilModal(true)}
-        />
+        <UserProfile user={user} setShowModal={setShowModal} />
 
         {/* User Bio */}
         <div className="space-y-4">
@@ -115,14 +107,6 @@ export default function Profile() {
 
       {/* Upload Profile Modal */}
       {showModal && <UploadModal setShowModal={setShowModal} />}
-
-      {/* Create Profile Modal */}
-      {showCreateProfilModal && (
-        <CreateProfileModal
-          handleCloseModal={() => setCreateProfilModal(false)}
-          userId={user?.id}
-        />
-      )}
     </div>
   );
 }

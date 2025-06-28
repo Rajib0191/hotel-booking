@@ -10,6 +10,8 @@ export const USER_DETAILS = `${BASE_URL}/users/account`; //OK
 export const UPDATE_USERS = `${BASE_URL}/users/update`; //OK
 export const CREATE_PROFILE = `${BASE_URL}/profiles`; //OK
 export const UPDATE_PROFILE = `${BASE_URL}/profiles`; //OK
+export const GET_ALL_USERS = `${BASE_URL}/users`; //OK
+export const DELETE_USER = `${BASE_URL}/users/delete`; //OK
 
 // Rooms
 export const GET_AVAILABLE_ROOM = `${BASE_URL}/rooms/available`; //OK

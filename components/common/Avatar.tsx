@@ -11,14 +11,16 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { IMAGE_PATH } from "@/services/apiService";
 
-const Avatar = ({ src }: { src?: string }) => {
+const Avatar = ({ bg }: { bg?: string }) => {
   const router = useRouter();
   const customRef = useRef<HTMLDivElement>(null);
   const { logout } = useUser();
 
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
+  const isAdmin = user?.role === "ADMIN";
   const fullName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
 
   const initials = [
@@ -51,16 +53,17 @@ const Avatar = ({ src }: { src?: string }) => {
     >
       {/* =====Name And Logout Button===== */}
       <div
-        className="relative h-9 w-9 rounded-full bg-blue flex items-center justify-center"
+        className="relative overflow-hidden h-9 w-9 rounded-full bg-blue flex items-center justify-center"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {src ? (
+        {user?.profile?.profilePictureUrl ? (
           <Image
-            src={src}
-            alt={fullName}
+            src={`${IMAGE_PATH}/${user?.profile?.profilePictureUrl}`}
+            alt="Preview"
             fill
-            className="object-cover rounded-full"
-            sizes="48px"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain"
           />
         ) : (
           <span className="text-background font-medium text-sm">
@@ -74,14 +77,28 @@ const Avatar = ({ src }: { src?: string }) => {
         className="flex justify-center items-center font-medium text-[16px]"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="underline text-white font-bold tracking-wide">
+        <div
+          className={`underline ${
+            bg === "white" ? "text-foreground" : "text-white"
+          } font-bold tracking-wide`}
+        >
           {fullName}
         </div>
         <div>
           {isOpen ? (
-            <ChevronUp size={18} className="text-white" />
+            <ChevronUp
+              size={18}
+              className={` ${
+                bg === "white" ? "text-foreground" : "text-white"
+              }`}
+            />
           ) : (
-            <ChevronDown size={18} className="text-white" />
+            <ChevronDown
+              size={18}
+              className={` ${
+                bg === "white" ? "text-foreground" : "text-white"
+              }`}
+            />
           )}
         </div>
       </div>
@@ -94,13 +111,30 @@ const Avatar = ({ src }: { src?: string }) => {
             <p className="text-xs m-0">{user?.email}</p>
           </div>
           <div className="border-b border-custom-border p-1">
-            <div
-              className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md"
-              onClick={() => router.push("/dashboard")}
-            >
-              <LayoutDashboard size={16} className="mr-3" />
-              <p className="text-base m-0">Dashboard</p>
-            </div>
+            {isAdmin ? (
+              <div
+                className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md"
+                onClick={() => {
+                  router.push("/dashboard");
+                  localStorage.setItem("menu", "Dashboard");
+                }}
+              >
+                <LayoutDashboard size={16} className="mr-3" />
+                <p className="text-base m-0">Dashboard</p>
+              </div>
+            ) : (
+              <div
+                className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md"
+                onClick={() => {
+                  router.push("dashboard/profile");
+                  localStorage.setItem("menu", "Profile");
+                }}
+              >
+                <LayoutDashboard size={16} className="mr-3" />
+                <p className="text-base m-0">Profile</p>
+              </div>
+            )}
+
             <div className="flex justify-start items-center flex-row px-2 py-1 hover:bg-amber-300 hover:rounded-md">
               <Settings size={16} className="mr-3" />
               <p className="text-base m-0">Setting</p>

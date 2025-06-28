@@ -3,15 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { IMAGE_PATH } from "@/services/apiService";
 import { Camera } from "lucide-react";
-import Button from "@/components/ui/button";
 
 const UserProfile = ({
   setShowModal,
-  setCreateProfilModal,
   user,
 }: {
   setShowModal: any;
-  setCreateProfilModal: () => void;
   user: any;
 }) => {
   return (
@@ -56,12 +53,6 @@ const UserProfile = ({
         </h2>
         <p className="text-gray-600">{user?.email}</p>
       </div>
-      {/* Update Profile Button */}
-      {!user?.profile && (
-        <div className="absolute top-0 right-0">
-          <Button onClick={setCreateProfilModal}>Update Profile</Button>
-        </div>
-      )}
     </div>
   );
 };

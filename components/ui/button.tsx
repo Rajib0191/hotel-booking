@@ -41,7 +41,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "border border-gray-300 bg-transparent hover:bg-gray-50 focus:ring-2 focus:ring-offset-1 focus:ring-gray-300",
       ghost: "bg-transparent hover:bg-gray-100",
       danger:
-        "bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-offset-1 focus:ring-red-600",
+        "bg-red-600 text-white hover:bg-red-500 focus:ring-2 focus:ring-offset-1 focus:ring-red-600",
     };
 
     // Size classes
@@ -89,9 +89,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </span>
         ) : (
           <>
-            {leftIcon && <span className="mr-2">{leftIcon}</span>}
+            {leftIcon && <span className="mr-0">{leftIcon}</span>}
             {children}
-            {rightIcon && <span className="ml-2">{rightIcon}</span>}
+            {rightIcon && <span className="ml-0">{rightIcon}</span>}
           </>
         )}
       </button>

@@ -2,12 +2,14 @@
 import axios from "axios";
 import {
   CREATE_PROFILE,
+  DELETE_USER,
+  GET_ALL_USERS,
   UPDATE_PROFILE,
   UPDATE_USERS,
   USER_DETAILS,
 } from "./apiService";
 import { getToken } from "@/utils/authUtilities";
-import { UserResponse } from "@/types/user";
+import { GetAllUsersResponse, UserResponse } from "@/types/user";
 
 export const getUserDetails = async (): Promise<UserResponse> => {
   const token = getToken();
@@ -52,4 +54,39 @@ export const updateProfileInfo = async (
     },
   });
   return response.data;
+};
+
+export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
+  const token = getToken();
+  try {
+    const response = await axios.get<GetAllUsersResponse>(GET_ALL_USERS, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to fetch users");
+    }
+    throw new Error("Failed to fetch users");
+  }
+};
+
+export const deleteUser = async (userId: number | undefined) => {
+  const token = getToken();
+  try {
+    const response = await axios.delete(`${DELETE_USER}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Failed to delete user");
+    }
+    throw new Error("Failed to delete user");
+  }
 };

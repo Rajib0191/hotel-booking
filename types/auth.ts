@@ -1,4 +1,3 @@
-// types/auth.ts
 export interface UserRegistrationData {
   firstName: string;
   lastName: string;

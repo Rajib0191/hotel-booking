@@ -29,7 +29,7 @@ const Rooms = () => {
 
   if (error) {
     return (
-      <div className="mt-4 rounded-lg bg-red-50 p-4 text-red-600">
+      <div className="h-24 py-[53px] mt-4 rounded-sm bg-red-50 px-4 text-red-600 justify-center items-center">
         <p>Failed to load rooms: {error.message}</p>
         <button
           onClick={() => window.location.reload()}
@@ -42,7 +42,11 @@ const Rooms = () => {
   }
 
   if (!rooms?.length) {
-    return <div className="mt-4 text-gray-600">No rooms available</div>;
+    return (
+      <div className="h-24 py-[53px] mt-4 rounded-sm bg-green-50 px-4 flex justify-center items-center">
+        <p>No rooms available</p>
+      </div>
+    );
   }
 
   return (

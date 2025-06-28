@@ -5,29 +5,41 @@ import { ProtectedRoute } from "@/components/auth/protectedRoute";
 import { Home, LogOut, Menu, PlusSquare, User, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo.png";
-
-const menuItems = [
-  { name: "Dashboard", path: "/dashboard", icon: <Home size={18} /> },
-  { name: "Profile", path: "/dashboard/profile", icon: <User size={18} /> },
-  {
-    name: "Create Room",
-    path: "/dashboard/create-room",
-    icon: <PlusSquare size={18} />,
-  },
-];
+import { MenuItem } from "@/types/dashboard-sidebar";
+import SidebarMenu from "./_component/SidebarMenu";
 
 const DashboardLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout } = useUser();
+  const menuItems: MenuItem[] = [
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: <Home size={18} />,
+      isAccessible: ["ADMIN"],
+    },
+    {
+      name: "Profile",
+      path: "/dashboard/profile",
+      icon: <User size={18} />,
+      isAccessible: ["ADMIN", "CUSTOMER"],
+    },
+    {
+      name: "Create Room",
+      path: "/dashboard/create-room",
+      icon: <PlusSquare size={18} />,
+      isAccessible: ["ADMIN"],
+    },
+  ];
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout } = useUser();
 
   return (
     <ProtectedRoute>
@@ -70,39 +82,9 @@ const DashboardLayout = ({
               </button>
             </div>
 
-            {/* User profile */}
-            <div className="flex items-center gap-3 border-b border-custom-border p-4">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <User className="text-blue-600" />
-              </div>
-              <div>
-                <p className="font-medium">
-                  {user?.firstName} {user?.lastName}
-                </p>
-                <p className="text-sm text-gray-500">{user?.email}</p>
-              </div>
-            </div>
-
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto p-2">
-              <ul className="space-y-1">
-                {menuItems.map((item) => (
-                  <li key={item.path}>
-                    <Link
-                      href={item.path}
-                      className={`flex items-center gap-3 rounded-sm px-4 py-1 transition-colors ${
-                        pathname === item.path
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-700 hover:bg-gray-100"
-                      }`}
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <span className="text-lg">{item.icon}</span>
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <SidebarMenu setSidebarOpen={() => setSidebarOpen(false)} />
             </nav>
 
             {/* Footer/logout */}
@@ -135,9 +117,7 @@ const DashboardLayout = ({
           </header>
 
           {/* Content area */}
-          <main className="flex-1 overflow-y-auto px-1 md:px-2">
-            {children}
-          </main>
+          <main className="flex-1 overflow-y-auto px-0.5">{children}</main>
         </div>
       </div>
     </ProtectedRoute>

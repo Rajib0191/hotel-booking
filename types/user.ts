@@ -1,4 +1,4 @@
-type UserRole = "ADMIN" | "USER" | "MODERATOR"; // etc.
+export type UserRole = "ADMIN" | "CUSTOMER" | "MODERATOR";
 
 export type Profile = {
   id: number;
@@ -21,9 +21,28 @@ export interface User {
   isActive: boolean;
   createdAt: string;
 }
+
 export interface UserResponse {
   status: number;
   message: string;
   user: User;
+  timestamp: string;
+}
+
+export type UserContextType = {
+  user: User | null;
+  setUser: (user: User | null) => void;
+  isAuthenticated: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+  isLogin: boolean;
+  setIsLogin: (value: boolean) => void;
+  isAdmin: boolean;
+};
+
+export interface GetAllUsersResponse {
+  status: number;
+  message: string;
+  users: User[];
   timestamp: string;
 }

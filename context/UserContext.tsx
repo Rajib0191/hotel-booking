@@ -1,18 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { User } from "@/types/user";
-
-type UserContextType = {
-  user: User | null;
-  setUser: (user: User | null) => void;
-  isAuthenticated: boolean;
-  login: (token: string) => void;
-  logout: () => void;
-  isLogin: boolean;
-  setIsLogin: (value: boolean) => void;
-  isAdmin: boolean;
-};
+import { User, UserContextType } from "@/types/user";
 
 const defaultContextValue: UserContextType = {
   user: null,
@@ -47,7 +36,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setIsLogin(false);
   };
 
-  const isAdmin = user?.role === "ADMIN"; // Admin check
+  const isAdmin = user?.role === "ADMIN";
 
   const isAuthenticated = !!user;
 

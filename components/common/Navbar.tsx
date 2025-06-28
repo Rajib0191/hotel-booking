@@ -41,7 +41,7 @@ const Navbar = ({ bg, shadow }: { bg?: string; shadow?: boolean }) => {
               loading={false}
             />
           ) : (
-            <Avatar />
+            <Avatar bg={bg} />
           )}
         </div>
       </div>

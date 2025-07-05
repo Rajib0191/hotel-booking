@@ -16,6 +16,8 @@ interface SelectProps {
   className?: string;
   disabled?: boolean;
   error?: string;
+  name?: string;
+  id?: string;
   defaultToUS?: boolean; // New prop to default to US
 }
 
@@ -30,6 +32,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       className = "",
       disabled = false,
       error,
+      name,
       defaultToUS = true,
     },
     ref
@@ -45,9 +48,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     };
 
     return (
-      <div className={`mb-4 ${className}`}>
+      <div className={`mb-2 ${className}`}>
         {label && (
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             {label}
           </label>
         )}
@@ -56,6 +59,8 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           <select
             ref={ref}
             value={selectedValue}
+            name={name}
+            id={name}
             onChange={handleChange}
             disabled={disabled}
             className={`block w-full px-2 py-1 pr-8 border ${

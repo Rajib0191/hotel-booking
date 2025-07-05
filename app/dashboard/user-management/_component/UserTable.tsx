@@ -16,7 +16,6 @@ export const UserTable: React.FC<UserTableProps> = ({ users, loading }) => {
   const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
 
   const handleClick = (row: User) => {
-    // console.log(row);
     setOpenConfirmModal(true);
     setSelectedRow(row);
   };

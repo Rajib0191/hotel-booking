@@ -15,3 +15,8 @@ export const DELETE_USER = `${BASE_URL}/users/delete`; //OK
 
 // Rooms
 export const GET_AVAILABLE_ROOM = `${BASE_URL}/rooms/available`; //OK
+export const GET_ALL_ROOMS = `${BASE_URL}/rooms/all`; //OK
+export const CREATE_ROOM = `${BASE_URL}/rooms/add`; //OK
+export const DELETE_ROOM = `${BASE_URL}/rooms/delete`; //OK
+export const UPDATE_ROOM = `${BASE_URL}/rooms/update`; //OK
+export const FILTER_ROOM = `${BASE_URL}/rooms/search`;

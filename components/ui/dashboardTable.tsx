@@ -52,6 +52,10 @@ export function DashboardTable<T>({
     return <TableSkeleton columns={10} />;
   }
 
+  if (data.length === 0) {
+    return <strong>No Data Found!</strong>;
+  }
+
   return (
     <div className="rounded-lg overflow-hidden">
       <div className="overflow-x-auto">

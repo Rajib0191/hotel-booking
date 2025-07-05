@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import Select from "@/components/ui/select";
 
 const options = [
-  { value: "all", label: "All" },
-  { value: "single", label: "Single" },
-  { value: "double", label: "Double" },
-  { value: "triple", label: "Tripple" },
-  { value: "suite", label: "Suit" },
+  { value: "ALL", label: "All" },
+  { value: "SINGLE", label: "Single" },
+  { value: "DOUBLE", label: "Double" },
+  { value: "TRIPLE", label: "Tripple" },
+  { value: "SUITE", label: "Suite" },
 ];
 
 const FilterSection = () => {

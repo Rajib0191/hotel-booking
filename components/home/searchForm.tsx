@@ -54,10 +54,10 @@ const SearchForm = () => {
   const selectRef = useRef<HTMLDivElement>(null);
 
   const options = [
-    { value: "single", label: "SINGLE", person: 1 },
-    { value: "double", label: "DOUBLE", person: 2 },
-    { value: "triple", label: "TRIPLE", person: 3 },
-    { value: "suit", label: "SUIT", person: 4 },
+    { value: "SINGLE", label: "SINGLE", person: 1 },
+    { value: "DOUBLE", label: "DOUBLE", person: 2 },
+    { value: "TRIPLE", label: "TRIPLE", person: 3 },
+    { value: "SUITE", label: "SUITE", person: 4 },
   ];
 
   const handleOptionClick = (option: typeof selectedOption) => {

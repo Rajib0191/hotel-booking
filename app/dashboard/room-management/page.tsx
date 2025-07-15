@@ -34,8 +34,6 @@ const RoomManagement = () => {
     }
   };
 
-  console.log(filterList);
-
   return (
     <div className="relative">
       <DashboardHeader />

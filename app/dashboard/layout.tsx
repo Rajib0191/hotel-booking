@@ -2,7 +2,15 @@
 
 import React, { useState } from "react";
 import { ProtectedRoute } from "@/components/auth/protectedRoute";
-import { Home, LogOut, Menu, PlusSquare, User, X } from "lucide-react";
+import {
+  Home,
+  LogOut,
+  Menu,
+  PlusSquare,
+  TextSearch,
+  User,
+  X,
+} from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
@@ -35,6 +43,12 @@ const DashboardLayout = ({
       path: "/dashboard/create-room",
       icon: <PlusSquare size={18} />,
       isAccessible: ["ADMIN"],
+    },
+    {
+      name: "Find My Booking",
+      path: "/dashboard/find-booking",
+      icon: <TextSearch size={18} />,
+      isAccessible: ["ADMIN", "CUSTOMER"],
     },
   ];
 

@@ -1,13 +1,24 @@
 import { AvailableRoom } from "@/controller/useAvailableRooms";
 import { IMAGE_PATH } from "@/services/apiService";
-import { Star, Snowflake, Tv, Refrigerator, Users } from "lucide-react";
+import { Snowflake, Tv, Refrigerator, Users } from "lucide-react";
 import Image from "next/image";
+import Button from "../common/Button";
+import { useBookRoom } from "@/hooks/bookingsQueries";
+import { BookingRequest } from "@/types/booking";
 
 interface CardProps {
   item: AvailableRoom;
+  checkInDate?: string;
+  checkOutDate?: string;
 }
 
-const Card = ({ item }: CardProps) => {
+const Card = ({ item, checkOutDate, checkInDate }: CardProps) => {
+  const { mutate, isPending, isError, error, isSuccess } = useBookRoom();
+
+  const handleSubmit = (formData: BookingRequest) => {
+    mutate(formData);
+  };
+
   return (
     <div className="max-w-full rounded-sm shadow-custom-shadow p-4 flex gap-4 bg-white">
       {/* =====Image===== */}
@@ -60,9 +71,19 @@ const Card = ({ item }: CardProps) => {
               <p className="text-xs text-gray-500">for 1 Night, per room</p>
             </div>
 
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-white text-sm font-semibold px-4 py-2 rounded">
-              Select
-            </button>
+            <Button
+              title="Book Room"
+              className="bg-yellow-400 hover:bg-yellow-500 text-white text-sm font-semibold px-4 py-2 rounded"
+              onClick={() =>
+                handleSubmit({
+                  roomId: item.id,
+                  checkInDate: checkInDate ? checkInDate : "",
+                  checkOutDate: checkOutDate ? checkOutDate : "",
+                })
+              }
+              disabled={isPending}
+              loading={isPending}
+            />
           </div>
         </div>
       </div>

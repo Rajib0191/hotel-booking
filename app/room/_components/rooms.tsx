@@ -52,7 +52,12 @@ const Rooms = () => {
   return (
     <div className="mt-4 grid grid-cols-1 gap-4">
       {rooms.map((room) => (
-        <Card key={room.id} item={room} />
+        <Card
+          key={room.id}
+          item={room}
+          checkInDate={params.get("checkin") || ""}
+          checkOutDate={params.get("checkout") || ""}
+        />
       ))}
     </div>
   );

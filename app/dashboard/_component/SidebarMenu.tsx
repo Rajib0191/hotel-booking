@@ -2,7 +2,14 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { MenuItem } from "@/types/dashboard-sidebar";
-import { BedSingle, Home, UserPen, Users } from "lucide-react";
+import {
+  BedSingle,
+  Home,
+  List,
+  TextSearch,
+  UserPen,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 
@@ -38,6 +45,18 @@ const SidebarMenu = ({ setSidebarOpen }: SidebarMenuProps) => {
       path: "/dashboard/room-management",
       icon: <BedSingle size={18} />,
       isAccessible: ["ADMIN"],
+    },
+    {
+      name: "Booking List",
+      path: "/dashboard/booking-list",
+      icon: <List size={18} />,
+      isAccessible: ["ADMIN"],
+    },
+    {
+      name: "Find My Booking",
+      path: "/dashboard/find-booking",
+      icon: <TextSearch size={18} />,
+      isAccessible: ["ADMIN", "CUSTOMER"],
     },
   ];
 

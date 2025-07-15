@@ -72,6 +72,7 @@ const UserManagement = () => {
             Create Admin
           </Button>
         </div>
+
         {/* User Table */}
         {error && !isLoading ? (
           <div className="h-24 pt-2 mt-4 rounded-sm bg-red-50 px-4 text-red-600 justify-center items-center">

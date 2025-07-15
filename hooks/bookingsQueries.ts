@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   bookedRoom,
   fetchAllBookingList,
+  FindBookingByReference,
   UpdateBookingStatus,
 } from "@/services/bookingService";
 import {
@@ -12,6 +13,7 @@ import {
   BookingStatusChangeResponse,
 } from "@/types/booking";
 import { useToast } from "@/context/ToastContext";
+import { BookingApiResponse } from "@/types/find-booking";
 
 export const useBookings = () => {
   return useQuery({
@@ -69,5 +71,15 @@ export const useUpdateBookingStatus = () => {
         type: "error",
       });
     },
+  });
+};
+
+export const useFindBookingByRef = (bookingReference: string) => {
+  return useQuery<BookingApiResponse, Error>({
+    queryKey: ["booking", bookingReference],
+    queryFn: () => FindBookingByReference(bookingReference),
+    enabled: !!bookingReference, // Only run when bookingReference exists
+    retry: 2, // Retry twice before failing
+    staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes
   });
 };

@@ -2,6 +2,7 @@
 import { getToken } from "@/utils/authUtilities";
 import {
   BOOKED_ROOM,
+  FIND_BOOKING_BY_REFERENCE,
   GET_TOTAL_BOOKING_LIST,
   UPDATE_BOOKING,
 } from "./apiService";
@@ -13,6 +14,7 @@ import {
   BookingStatusChangeResponse,
   GetAllBookingResponse,
 } from "@/types/booking";
+import { BookingApiResponse } from "@/types/find-booking";
 
 export const fetchAllBookingList = async () => {
   const token = getToken();
@@ -76,5 +78,23 @@ export const UpdateBookingStatus = async (
       );
     }
     throw new Error("Failed to create booked room");
+  }
+};
+
+export const FindBookingByReference = async (
+  payload: string
+): Promise<BookingApiResponse> => {
+  try {
+    const response = await axios.get<BookingApiResponse>(
+      `${FIND_BOOKING_BY_REFERENCE}/${payload}`
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Failed to find booking by reference"
+      );
+    }
+    throw new Error("Failed to find booking by reference");
   }
 };

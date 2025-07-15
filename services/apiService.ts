@@ -24,4 +24,5 @@ export const FILTER_ROOM = `${BASE_URL}/rooms/search`; //OK
 // Booked
 export const BOOKED_ROOM = `${BASE_URL}/bookings`; //OK
 export const GET_TOTAL_BOOKING_LIST = `${BASE_URL}/bookings/all`; //OK
-export const UPDATE_BOOKING = `${BASE_URL}/bookings/update`;
+export const UPDATE_BOOKING = `${BASE_URL}/bookings/update`; //OK
+export const FIND_BOOKING_BY_REFERENCE = `${BASE_URL}/bookings`; //OK

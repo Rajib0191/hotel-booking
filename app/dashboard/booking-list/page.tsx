@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DashboardHeader from "../_component/DashboardHeader";
 import DashboardCard from "@/components/ui/dashboardCard";
-import { Banknote, CalendarCheck } from "lucide-react";
+import { Banknote, CalendarCheck, ListFilter } from "lucide-react";
 import { useBookings } from "@/hooks/bookingsQueries";
 import { getTodaysBookingStats } from "@/utils/bookingStatus";
 import BookingListTable from "./_components/BookingListTable";
@@ -10,9 +10,33 @@ import { SearchField } from "@/components/ui/searchField";
 import Button from "@/components/ui/button";
 
 const BookingList = () => {
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const [openFilterPopover, setOpenFilterPopover] = useState<boolean>(false);
+  const [filterText, setFilterText] = useState<string | "">("BOOKED");
   const { data, isLoading, error } = useBookings();
 
   const bookingStatus = data ? getTodaysBookingStats(data) : null;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        setOpenFilterPopover(false);
+      }
+    };
+
+    // Add when popover is open
+    if (openFilterPopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean up
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openFilterPopover]);
 
   return (
     <div className="relative">
@@ -51,7 +75,7 @@ const BookingList = () => {
         />
       </div>
       {/* Filter & Search */}
-      <div className="flex justify-between items-center gap-2 px-3">
+      <div className="relative flex justify-between items-center gap-2 p-3 bg-white shadow-custom-shadow mx-3">
         <div className="">
           <SearchField
             className="max-w-lg mx-auto"
@@ -63,11 +87,59 @@ const BookingList = () => {
           variant="outline"
           size="sm"
           className="cursor-pointer"
-          // onClick={() => setOpenFilterPopover(true)}
+          onClick={() => setOpenFilterPopover(true)}
         >
-          Filter Booking Status
+          <ListFilter size={19} />
         </Button>
+        {/* =====Popover===== */}
+        {openFilterPopover && (
+          <div
+            ref={popoverRef}
+            className="absolute top-full mt-2 right-0 bg-white rounded shadow-lg min-w-[200px] z-10"
+          >
+            <div className="flex flex-col border-b border-custom-border py-2 px-3">
+              <strong>Filter Booking Status</strong>
+            </div>
+            <div
+              className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setFilterText("BOOKED");
+                setOpenFilterPopover(false);
+              }}
+            >
+              <p className="text-base m-0">BOOKED</p>
+            </div>
+            <div
+              className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setFilterText("CHECKED_IN");
+                setOpenFilterPopover(false);
+              }}
+            >
+              <p className="text-base m-0">CHECKED IN</p>
+            </div>
+            <div
+              className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setFilterText("CHECKED_OUT");
+                setOpenFilterPopover(false);
+              }}
+            >
+              <p className="text-base m-0">CHECKED OUT</p>
+            </div>
+            <div
+              className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setFilterText("CANCELLED");
+                setOpenFilterPopover(false);
+              }}
+            >
+              <p className="text-base m-0">CANCELLED</p>
+            </div>
+          </div>
+        )}
       </div>
+
       <div className="p-3">
         {/* User Table */}
         {error && !isLoading ? (

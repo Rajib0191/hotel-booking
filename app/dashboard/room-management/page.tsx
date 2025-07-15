@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DashboardHeader from "../_component/DashboardHeader";
 import Button from "@/components/ui/button";
 import RoomTable from "./_component/RoomTable";
@@ -11,9 +11,11 @@ import { ListFilter, X } from "lucide-react";
 import { SearchField } from "@/components/ui/searchField";
 
 const RoomManagement = () => {
+  const popoverRef = useRef<HTMLDivElement>(null);
   const [openFilterPopover, setOpenFilterPopover] = useState<boolean>(false);
   const [filterList, setFilterList] = useState<string>("");
   const [openRoomModal, setOpenRoomModal] = useState<boolean>(false);
+
   const {
     data: response = { rooms: [] },
     isError,
@@ -33,6 +35,27 @@ const RoomManagement = () => {
       // Do Something
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        setOpenFilterPopover(false);
+      }
+    };
+
+    // Add when popover is open
+    if (openFilterPopover) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean up
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openFilterPopover]);
 
   return (
     <div className="relative">
@@ -70,7 +93,10 @@ const RoomManagement = () => {
 
             {/* =====Popover===== */}
             {openFilterPopover && (
-              <div className="absolute top-full mt-2 left-0 bg-white rounded shadow-lg min-w-[200px] z-10">
+              <div
+                ref={popoverRef}
+                className="absolute top-full mt-2 left-0 bg-white rounded shadow-lg min-w-[200px] z-10"
+              >
                 <div className="flex flex-col border-b border-custom-border py-2 px-3">
                   <strong>Filter Room</strong>
                 </div>
